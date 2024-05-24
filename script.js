@@ -1,9 +1,9 @@
 var params = {
-     speed: 20,
+     speed: 25,
      fadeStrength: 0.05,
      sparkleCount: 100,
-     sparkleSpeed: 100,
-     cometCount: 100,
+     sparkleSpeed: 4,
+     cometCount: 20,
     
      color:{
         get: function(t){
@@ -22,12 +22,12 @@ var params = {
      canvas: document.getElementById("canvas"),
 
     velocity: {
-        x: -3,
-        y: 3
+        x: -10,
+        y: -10
     },
     accel: {
-        x:0.5,
-        y:-0.1
+        x:0,
+        y:0
     }
 }
 
@@ -35,7 +35,7 @@ var params = {
 //
 var canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-let mainDraw = setInterval(draw,50-params.speed,ctx);
+let mainDraw = setInterval(draw,params.speed,ctx);
 let sparkleDraw = setInterval(drawSparkles,100-(params.sparkleSpeed*25),params.sparkleCount);
 //
 canvas.height = window.innerHeight;
@@ -151,9 +151,9 @@ function livelyPropertyListener(name, val)
 {
     switch(name) {
         case "speed":
-            params.speed = val;
+            params.speed = 50 - val;
             clearInterval(mainDraw);
-            mainDraw = setInterval(draw, 50-params.speed, ctx);
+            mainDraw = setInterval(draw, params.speed, ctx);
             break;
         case "fadeStrength":
             params.fadeStrength = val;

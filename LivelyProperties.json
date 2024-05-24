@@ -10,7 +10,7 @@
     "text": "Speed",
     "type": "slider",
     "help": "Speed of animation",
-    "value": 10
+    "value": 25
   },
   "fadeStrength": {
     "max": 1,
@@ -41,7 +41,7 @@
     "text": "Sparkle Speed",
     "type": "slider",
     "help": "How fast sparkles are drawn",
-    "value": 100
+    "value": 4
   },
   "cometLabel": {
     "type": "label",
@@ -54,7 +54,7 @@
     "text": "Comet Count",
     "type": "slider",
     "help": "Maximum number of comets at a time",
-    "value": 100
+    "value": 20
   },
   
   "velocityLabel": {
@@ -64,12 +64,12 @@
   "velocityX": {
     "text": "X",
     "type": "textbox",
-    "value": -1
+    "value": -10
   },
   "velocityY": {
     "text": "Y",
     "type": "textbox",
-    "value": 1
+    "value": 10
   },
   "accelLabel": {
     "type": "label",

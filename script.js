@@ -1,34 +1,63 @@
 var params = {
+
      speed: 25,
      fadeStrength: 0.05,
+
      sparkleCount: 100,
      sparkleSpeed: 4,
+
      cometCount: 20,
-    
-     color:{
-        get: function(t){
-            var r = 0.5+0.5*Math.cos(6.28318*(1.0*t+0.0));
-            var g =  0.5+0.5*Math.cos(6.28318*(1.0*t+0.333));
-            var b = 0.5+0.5*Math.cos(6.28318*(1.0*t+0.667));
 
-            r *= 255;
-            g *= 255;
-            b *= 255;
 
-            return {r,g,b};
-        }
-     },
-
-     canvas: document.getElementById("canvas"),
-
-    velocity: {
+     velocity: {
         x: -10,
         y: -10
     },
     accel: {
         x:0,
         y:0
-    }
+    },
+    
+
+    color:
+    {
+        state: 0,
+        cometColor: { r: 255, g: 255, b: 255 },
+        get: function (t) {
+            switch (this.state) {
+                default:
+                case 0://custom static
+                    return this.cometColor;
+                case 1://custom gradient
+                //TODO implement
+                    return;
+                case 2://rainbow
+                    return this.gradient(t, { r: 0.5, g: 0.5, b: 0.5 }, { r: 0.5, g: 0.5, b: 0.5 }, { r: 1.0, g: 1.0, b: 1.0 }, { r: 0, g: 0.3333, b: 0.6666 });
+                case 3://fire
+                    return this.gradient(t, { r: 1.138, g: 0.358, b: -0.531 }, { r: 0, g: -0.671, b: 0.5 }, { r: 1.0, g: 1.0, b: 1.0 }, { r: 0, g: 0.333, b: 0.666 });
+                case 4://golden
+                    return this.gradient(t, { r: 0.938, g: 0.918, b: 0.308 }, { r: -0.112, g: -0.052, b: -3.142}, { r: 1.000, g: 1.000, b: 1.000 }, { r: 0.499, g: 0.499, b:-1.502 });
+
+            }
+        },
+
+        gradient: function (t, DCOffset, Amp, Freq, Phase) {
+            var r = DCOffset.r + Amp.r * Math.cos(6.28318 * (Freq.r * t + Phase.r));
+            var g = DCOffset.g + Amp.g * Math.cos(6.28318 * (Freq.g * t + Phase.g));
+            var b = DCOffset.b + Amp.b * Math.cos(6.28318 * (Freq.b * t + Phase.b));
+
+            r *= 255;
+            g *= 255;
+            b *= 255;
+
+            return { r, g, b };
+        }
+
+    },
+
+
+    canvas: document.getElementById("canvas")
+
 }
 
 //main
@@ -43,7 +72,7 @@ canvas.width = window.innerWidth;
 
 //definitions
 //
-function draw(ctx){
+function draw(ctx){ 
     //used for fade out effect
     ctx.fillStyle = `rgba(0,0,0, ${params.fadeStrength})`;
     ctx.fillRect(0, 0, params.canvas.width, params.canvas.height);
@@ -110,15 +139,15 @@ class comet {
     };
 
     draw(){
-        var ctx = this.params.canvas.getContext("2d");
+        let ctx = this.params.canvas.getContext("2d");
         //drawing
         this.t += 0.1;
-        var c = this.params.color.get(this.t);
-        //ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},1)`;
+        let c = this.params.color.get(this.t);
+        console.log(c);
+        
         ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},1)`;
         ctx.lineWidth = this.radius;
-        //ctx.arc(this.x,this.y,this.radius,0,2*Math.PI);
-        //ctx.fill();
+        
         ctx.beginPath();
         ctx.moveTo(this.x,this.y);
         ctx.lineTo(this.x+this.vx,this.y+this.vy);
@@ -158,6 +187,12 @@ function livelyPropertyListener(name, val)
         case "fadeStrength":
             params.fadeStrength = val;
             break;
+        case "cometColorMode":
+            params.color.state = val;
+            break;
+        case "cometColor":
+            params.color.cometColor = hexToRGB(String(val));
+            break;
         case "sparkleCount":
             params.sparkleCount = val;
             clearInterval(sparkleDraw);
@@ -188,3 +223,12 @@ function livelyPropertyListener(name, val)
 
 
 
+function hexToRGB(hex) {
+    hex = hex.replace("#","");
+    let i = parseInt(hex, 16);
+    return {
+        r: Math.trunc(i % 16 ** 6 / 16 ** 4),
+        g: Math.trunc(i % 16 ** 4 / 16 ** 2),
+        b: Math.trunc(i % 16 ** 2 / 16 ** 0) 
+    }
+}

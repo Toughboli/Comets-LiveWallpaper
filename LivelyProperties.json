@@ -21,6 +21,28 @@
     "help": "Affects comet trails",
     "value": 0.05
   },
+  "cometColorLabel": {
+    "type": "label",
+    "value": "cometColor"
+  },
+  "cometColorMode": {
+    "type": "dropdown",
+    "value": 1,
+    "text": "Color Mode",
+    "items": [
+      "Custom Static",
+      "Custom Gradient",
+      "Rainbow",
+      "Fire",
+      "Golden"
+    ]
+  },
+    "cometColor": {
+      "text": "Color",
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+
   "sparkleLabel": {
     "type": "label",
     "value": "Sparkles"

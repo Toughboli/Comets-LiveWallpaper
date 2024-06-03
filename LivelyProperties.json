@@ -23,7 +23,7 @@
   },
   "cometColorLabel": {
     "type": "label",
-    "value": "cometColor"
+    "value": "Comet Color"
   },
   "cometColorMode": {
     "type": "dropdown",
@@ -41,6 +41,11 @@
       "text": "Color",
       "type": "color",
       "value": "#FFFFFF"
+    },
+    "customGradientVector": {
+      "text": "Gradient Vectors. you can generate them at http://dev.thi.ng/gradients",
+      "type": "textbox",
+      "value": "[[0.500 0.500 0.500] [0.500 0.500 0.500] [1.000 1.000 1.000] [0.000 0.333 0.667]]"
     },
 
   "sparkleLabel": {

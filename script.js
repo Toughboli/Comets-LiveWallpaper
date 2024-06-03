@@ -23,22 +23,33 @@ var params = {
     {
         state: 0,
         cometColor: { r: 255, g: 255, b: 255 },
+        gradientVector: "[[0.418 0.808 0.500] [0.888 0.500 0.500] [1.000 1.000 1.000] [0.000 0.333 0.667]]",
         get: function (t) {
             switch (this.state) {
                 default:
                 case 0://custom static
                     return this.cometColor;
                 case 1://custom gradient
-                //TODO implement
-                    return;
+                    return this.vec2grad(t,this.gradientVector)
                 case 2://rainbow
-                    return this.gradient(t, { r: 0.5, g: 0.5, b: 0.5 }, { r: 0.5, g: 0.5, b: 0.5 }, { r: 1.0, g: 1.0, b: 1.0 }, { r: 0, g: 0.3333, b: 0.6666 });
+                    return this.gradient(t, { r: 0.5, g: 0.5, b: 0.5 }, { r: 0.5, g: 0.5, b: 0.5 }, { r: 1.0, g: 1.0, b: 1.0 }, { r: 0, g: 0.3333, b: 0.667 });
                 case 3://fire
                     return this.gradient(t, { r: 1.138, g: 0.358, b: -0.531 }, { r: 0, g: -0.671, b: 0.5 }, { r: 1.0, g: 1.0, b: 1.0 }, { r: 0, g: 0.333, b: 0.666 });
                 case 4://golden
                     return this.gradient(t, { r: 0.938, g: 0.918, b: 0.308 }, { r: -0.112, g: -0.052, b: -3.142}, { r: 1.000, g: 1.000, b: 1.000 }, { r: 0.499, g: 0.499, b:-1.502 });
 
             }
+        },
+
+        vec2grad: function(t,vec) {
+            vec = vec.trim();
+            vec = vec.replaceAll(" ", ",");
+            vec = JSON.parse(vec);
+            dco = {r: vec[0][0], g: vec[0][1], b: vec[0][2]};
+            amp = {r: vec[1][0], g: vec[1][1], b: vec[1][2]};
+            freq = {r: vec[2][0], g: vec[2][1], b: vec[2][2]};
+            phase = {r: vec[3][0], g: vec[3][1], b: vec[3][2]};
+            return this.gradient(t,dco,amp,freq,phase);
         },
 
         gradient: function (t, DCOffset, Amp, Freq, Phase) {
@@ -51,7 +62,7 @@ var params = {
             b *= 255;
 
             return { r, g, b };
-        }
+        },
 
     },
 
@@ -143,7 +154,6 @@ class comet {
         //drawing
         this.t += 0.1;
         let c = this.params.color.get(this.t);
-        console.log(c);
         
         ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},1)`;
         ctx.lineWidth = this.radius;
@@ -193,6 +203,8 @@ function livelyPropertyListener(name, val)
         case "cometColor":
             params.color.cometColor = hexToRGB(String(val));
             break;
+        case "customGradientVector":
+            params.color.gradientVector = val;
         case "sparkleCount":
             params.sparkleCount = val;
             clearInterval(sparkleDraw);

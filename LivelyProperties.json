@@ -12,6 +12,11 @@
     "help": "Speed of animation",
     "value": 25
   },
+  "backgroundColor": {
+    "text": "Background Color",
+    "type": "color",
+    "value": "#000000"
+  },
   "fadeStrength": {
     "max": 1,
     "min": 0,
@@ -34,7 +39,7 @@
       "Custom Gradient",
       "Rainbow",
       "Fire",
-      "Golden"
+      "Black and White"
     ]
   },
     "cometColor": {

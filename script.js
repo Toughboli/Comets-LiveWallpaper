@@ -112,9 +112,6 @@ function drawSparkles(n) {
 
 }
 function drawComet() {
-    
-
-
     var rx = Math.random() * canvas.width;
     var ry = Math.random() * canvas.height;
     if (comet.cometCount >= params.cometCount) {

@@ -90,10 +90,6 @@ function draw(ctx) {
     ctx.fillStyle = `rgba(${c.r},${c.g},${c.b}, ${params.fadeStrength})`;
     ctx.fillRect(0, 0, params.canvas.width, params.canvas.height);
 
-
-    //drawSparkles(params.sparkleCount);
-
-
     drawComet();
 }
 function drawSparkles(n) {
@@ -187,7 +183,6 @@ window.onresize = () => {
     location.reload();
 }
 
-//TODO check for null/invalid val cases
 function livelyPropertyListener(name, val) {
     switch (name) {
         case "speed":

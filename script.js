@@ -90,10 +90,6 @@ function draw(ctx) {
     ctx.fillStyle = `rgba(${c.r},${c.g},${c.b}, ${params.fadeStrength})`;
     ctx.fillRect(0, 0, params.canvas.width, params.canvas.height);
 
-
-    //drawSparkles(params.sparkleCount);
-
-
     drawComet();
 }
 function drawSparkles(n) {
@@ -159,6 +155,7 @@ class comet {
 
         ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},1)`;
         ctx.lineWidth = this.radius;
+        ctx.lineCap = "round";
 
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);

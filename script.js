@@ -76,6 +76,10 @@ var params = {
 //
 var canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
+//initalize bg so it is bg color at the start
+clearBg();
+
 let mainDraw = setInterval(draw, params.speed, ctx);
 let sparkleDraw = setInterval(drawSparkles, 100 - (params.sparkleSpeed * 25), params.sparkleCount);
 //
@@ -89,6 +93,7 @@ function draw(ctx) {
     c = params.color.backgroundColor;
     ctx.fillStyle = `rgba(${c.r},${c.g},${c.b}, ${params.fadeStrength})`;
     ctx.fillRect(0, 0, params.canvas.width, params.canvas.height);
+
 
     drawComet();
 }
@@ -118,7 +123,8 @@ function drawComet() {
 
 function clearBg() {
     let ctx = params.canvas.getContext("2d");
-    ctx.fillStyle = `rgba(255,255,255,1)`;
+    c = params.color.backgroundColor;
+    ctx.fillStyle = `rgba(${c.r},${c.g},${c.b}, 1)`;
     ctx.fillRect(0, 0, params.canvas.width, params.canvas.height);
 }
 
@@ -153,14 +159,18 @@ class comet {
         this.t += 0.1;
         let c = this.params.color.get(this.t);
 
-        ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},1)`;
+        ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.05)`;
         ctx.lineWidth = this.radius;
         ctx.lineCap = "round";
 
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.vx, this.y + this.vy);
-        ctx.stroke();
+        //TODO: Look into modifying the opacity each loop. could result in less loops needed for same effect
+        for(let i = 100; i > (10**-120); i/=2){
+            ctx.lineWidth = i;
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x + this.vx, this.y + this.vy);
+            ctx.stroke();
+        }
 
         //updating position
         this.x += this.vx;

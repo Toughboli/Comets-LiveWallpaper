@@ -184,7 +184,6 @@ window.onresize = () => {
     location.reload();
 }
 
-//TODO check for null/invalid val cases
 function livelyPropertyListener(name, val) {
     switch (name) {
         case "speed":
